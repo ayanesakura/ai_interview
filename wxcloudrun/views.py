@@ -71,5 +71,5 @@ def get_count():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    upload_file_api(app.config['UPLOAD_FOLDER'])
+    return upload_file_api(app.config['UPLOAD_FOLDER'])
 

@@ -30,7 +30,8 @@ def upload_file(dir_path):
         # print('file_url:', file_url)
         return jsonify({
             'success': True, 
-            'message': '文件上传成功'
+            'message': '文件上传成功',
+            'path': file_path
         })
     
     return jsonify({'success': False, 'error': '不允许的文件类型'}), 400
