@@ -38,7 +38,7 @@ def get_question():
 
 
 def get_asr(base64_audio):
-    url = 'http://api-audio-sh.fengkongcloud.com/audio/v4'
+    url = 'http://api-audio-bj.fengkongcloud.com/audiomessage/v4'
     data =   {"accessKey": "qF8h6lEGjZKxUL8rEtA3",
         "appId": "audio_asr",
         "eventId": "game_asr",
