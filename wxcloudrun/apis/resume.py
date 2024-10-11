@@ -3,40 +3,10 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import os
 from wxcloudrun.utils.file_util import load_pdf
+import os
+from wxcloudrun.utils.file_util import download_file_from_wxcloud
 
-ALLOWED_EXTENSIONS = {'pdf'}
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
-
-def upload_file(dir_path):
-    # 检查是否有文件部分
-    if 'file' not in request.files:
-        return jsonify({'success': False, 'error': '没有文件部分'}), 400
-    file = request.files['file']
     
-    # 如果用户没有选择文件,浏览器也会发送一个空的文件名
-    if file.filename == '':
-        return jsonify({'success': False, 'error': '没有选择文件'}), 400
-    
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(dir_path, filename)
-        file.save(file_path)
-        
-        # 这里应该返回一个可以通过网络访问的URL
-        # print('file_url:', file_url)
-        return jsonify({
-            'success': True, 
-            'message': '文件上传成功',
-            'path': file_path
-        })
-    
-    return jsonify({'success': False, 'error': '不允许的文件类型'}), 400
-
-
 def analyze_text(client, text):
     completion = client.chat.completions.create(
     model="ep-20241008143931-s48cx",
@@ -50,15 +20,14 @@ def analyze_text(client, text):
 
 def analyze_resume():
     data = request.json
-    if not data or 'fileUrl' not in data:
-        return jsonify({'success': False, 'error': '缺少文件URL'}), 400
+    if not data or 'fileId' not in data:
+        return jsonify({'success': False, 'error': '缺少文件ID'}), 400
 
-    file_url = data['fileUrl']
+    file_id = data['fileId']
     
     try:
         # 提取PDF文本
-        file_name = file_url.split('/')[-1]
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+        file_path = download_file_from_wxcloud(file_id, 'wxcloudrun/resumes')
         resume_text = load_pdf(file_path)
         
         # 调用豆包API进行分析

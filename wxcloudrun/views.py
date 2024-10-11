@@ -5,7 +5,8 @@ from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter
 from wxcloudrun.model import Counters
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
 from flask import request
-from wxcloudrun.apis.resume import upload_file as upload_file_api
+from wxcloudrun.apis.resume import analyze_resume
+
 
 
 
@@ -69,7 +70,6 @@ def get_count():
     return make_succ_response(0) if counter is None else make_succ_response(counter.count)
 
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    return upload_file_api(app.config['UPLOAD_FOLDER'])
-
+@app.route('/api/analyze_resume', methods=['POST'])
+def analyze_resume_view():
+    return analyze_resume()
