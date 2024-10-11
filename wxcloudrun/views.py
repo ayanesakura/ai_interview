@@ -88,4 +88,4 @@ def get_question_view():
 
 @app.route('/api/process_audio', methods=['POST'])
 def process_audio_view():
-    return process_audio(app)
+    return process_audio()
