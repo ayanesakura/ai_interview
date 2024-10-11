@@ -18,7 +18,7 @@ def analyze_text(client, text):
         )
     return completion.choices[0].message.content
 
-def analyze_resume():
+def analyze_resume(save_dir):
     data = request.json
     if not data or 'fileId' not in data:
         return jsonify({'success': False, 'error': '缺少文件ID'}), 400
@@ -27,7 +27,7 @@ def analyze_resume():
     
     try:
         # 提取PDF文本
-        file_path = download_file_from_wxcloud(file_id, 'wxcloudrun/resumes')
+        file_path = download_file_from_wxcloud(file_id, save_dir)
         resume_text = load_pdf(file_path)
         
         # 调用豆包API进行分析

@@ -6,7 +6,7 @@ from wxcloudrun.model import Counters
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
 from flask import request
 from wxcloudrun.apis.resume import analyze_resume
-
+import os
 
 
 
@@ -72,4 +72,7 @@ def get_count():
 
 @app.route('/api/analyze_resume', methods=['POST'])
 def analyze_resume_view():
-    return analyze_resume()
+    save_dir = '/tmp'
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    return analyze_resume(save_dir)
