@@ -14,7 +14,7 @@ RUN apk add ca-certificates
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
 # 安装python3
 && apk add --update --no-cache python3 py3-pip \
-&& apk add gcc g++ make cmake gfortran libffi-dev openssl-dev libtool \
+&& apk add gcc g++ make cmake gfortran libffi-dev openssl-dev libtool python3-dev \
 && rm -rf /var/cache/apk/*
 
 
