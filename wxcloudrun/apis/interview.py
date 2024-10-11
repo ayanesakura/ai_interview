@@ -39,16 +39,17 @@ def get_question():
 
 def get_asr(base64_audio):
     url = 'http://api-audio-sh.fengkongcloud.com/audio/v4'
-    data =  {"accessKey": "qF8h6lEGjZKxUL8rEtA3",
-    "appId": "audio_asr",
-    "eventId": "game_asr",
-    "type": "POLITY",
-    "btId": str(uuid.uuid4()),
-    "contentType": "URL",
-    "content": base64_audio,
-    "data": {
-            "returnAllText":1
-        }
+    data =   {"accessKey": "qF8h6lEGjZKxUL8rEtA3",
+        "appId": "audio_asr",
+        "eventId": "game_asr",
+        "type": "POLITY",
+        "btId": "ayane_test_2",
+        "contentType": "RAW",
+        "content": base64_audio,
+        "data": {
+                "returnAllText":1,
+                "formatInfo": "mp3"
+            }
     }
     response = requests.post(url, json=data)
     return response.json()
