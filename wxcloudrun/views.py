@@ -8,6 +8,7 @@ from flask import request
 from wxcloudrun.apis.resume import analyze_resume
 import os
 from wxcloudrun.apis.interview import process_audio, get_question
+from flask import jsonify
 
 
 @app.route('/')
@@ -79,7 +80,11 @@ def analyze_resume_view():
 
 @app.route('/api/get_question', methods=['POST'])
 def get_question_view():
-    return get_question()
+    try:
+        return get_question()
+    except Exception as e:
+        app.logger.error(f"Error in get_question_view: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/process_audio', methods=['POST'])
 def process_audio_view():
