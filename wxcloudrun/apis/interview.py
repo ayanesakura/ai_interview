@@ -58,14 +58,16 @@ def process_audio(app):
     try:
         # 获取前端发送的base64编码的音频数据
         audio_base64 = request.json.get('audio')
-        app.logger.info(f"audio_base64: {audio_base64}")
+        # app.logger.info(f"audio_base64: {audio_base64}")
         
         if not audio_base64:
             return jsonify({'success': False, 'error': 'No audio data received'}), 400
 
         # 解码base64数据
         asr = get_asr(audio_base64)
+        app.logger.info(f"asr: {asr}")
         asr_text = asr['detail']['audioText']
+        app.logger.info(f"asr_text: {asr_text}")
 
         # 返回识别结果
         return jsonify({
