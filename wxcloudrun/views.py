@@ -7,7 +7,7 @@ from wxcloudrun.response import make_succ_empty_response, make_succ_response, ma
 from flask import request
 from wxcloudrun.apis.resume import analyze_resume
 import os
-from wxcloudrun.apis.interview import process_audio, get_question
+# from wxcloudrun.apis.interview import process_audio, get_question
 
 
 @app.route('/')
@@ -77,10 +77,10 @@ def analyze_resume_view():
         os.makedirs(save_dir)
     return analyze_resume(save_dir)
 
-@app.route('/api/get_question', methods=['POST'])
-def get_question_view():
-    return get_question()
+# @app.route('/api/get_question', methods=['POST'])
+# def get_question_view():
+#     return get_question()
 
-@app.route('/api/process_audio', methods=['POST'])
-def process_audio_view():
-    return process_audio(app)
+# @app.route('/api/process_audio', methods=['POST'])
+# def process_audio_view():
+#     return process_audio(app)
