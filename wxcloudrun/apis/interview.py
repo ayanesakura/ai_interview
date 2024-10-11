@@ -1,4 +1,4 @@
-from wxcloudrun.utils.doubao import client
+# from wxcloudrun.utils.doubao import client
 import requests
 from werkzeug.utils import secure_filename
 import os
