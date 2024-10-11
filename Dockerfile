@@ -14,7 +14,9 @@ RUN apk add ca-certificates
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
 # 安装python3
 && apk add --update --no-cache python3 py3-pip \
+&& apk add gcc g++ make cmake gfortran libffi-dev openssl-dev libtool \
 && rm -rf /var/cache/apk/*
+
 
 # 拷贝当前项目到/app目录下（.dockerignore中文件除外）
 COPY . /app
