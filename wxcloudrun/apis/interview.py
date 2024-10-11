@@ -37,6 +37,22 @@ def get_question():
     return jsonify({"success": True, "question": question})
 
 
+def get_asr(base64_audio):
+    url = 'http://api-audio-sh.fengkongcloud.com/audio/v4'
+    data =  {"accessKey": "qF8h6lEGjZKxUL8rEtA3",
+    "appId": "audio_asr",
+    "eventId": "game_asr",
+    "type": "POLITY",
+    "btId": str(uuid.uuid4()),
+    "contentType": "URL",
+    "content": base64_audio,
+    "data": {
+            "returnAllText":1
+        }
+    }
+    response = requests.post(url, json=data)
+    return response.json()
+    
 def process_audio():
     try:
         # 获取前端发送的base64编码的音频数据
@@ -46,22 +62,13 @@ def process_audio():
             return jsonify({'success': False, 'error': 'No audio data received'}), 400
 
         # 解码base64数据
-        audio_data = base64.b64decode(audio_base64)
-
-        # 创建临时文件来保存音频数据
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as temp_audio:
-            temp_audio.write(audio_data)
-            temp_audio_path = temp_audio.name
-
-        # 使用speech_recognition库来识别音频
-
-        # 删除临时文件
-        os.unlink(temp_audio_path)
+        asr = get_asr(audio_base64)
+        asr_text = asr['detail']['audioText']
 
         # 返回识别结果
         return jsonify({
             'success': True,
-            'transcription': "test"
+            'transcription': asr_text
         })
 
     except Exception as e:
